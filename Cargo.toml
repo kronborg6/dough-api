@@ -4,6 +4,6 @@ members = [
     # "entity",
     "service",
     "migration"
-]
+, "model"]
 
 resolver = "2"
