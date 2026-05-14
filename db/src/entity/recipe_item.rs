@@ -11,18 +11,18 @@ pub struct Model {
     pub name: String,
     pub user_id: Option<Uuid>,
     pub visibility: i16,
-    pub ingredient_category_id: Option<Uuid>,
+    pub recipe_item_type_id: Option<Uuid>,
     pub created_at: DateTime,
     pub updated_at: DateTime,
     pub deleted_at: Option<DateTime>,
     #[sea_orm(
         belongs_to,
-        from = "ingredient_category_id",
+        from = "recipe_item_type_id",
         to = "id",
         on_update = "NoAction",
         on_delete = "SetNull"
     )]
-    pub ingredient_category: HasOne<super::ingredient_category::Entity>,
+    pub recipe_item_type: HasOne<super::recipe_item_type::Entity>,
     #[sea_orm(has_many)]
     pub recipe_item_volumes: HasMany<super::recipe_item_volume::Entity>,
     #[sea_orm(

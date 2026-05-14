@@ -20,7 +20,7 @@ enum UserInfo {
     LastName,
 }
 #[derive(DeriveIden)]
-enum IngredientCategory {
+enum RecipeItemType {
     Table,
     Id,
     Name,
@@ -30,7 +30,7 @@ enum RecipeItem {
     Table,
     Id,
     Name,
-    IngredientCategoryId,
+    RecipeItemTypeId,
     UserId,
     Visibility,
     CreatedAt,
@@ -38,7 +38,7 @@ enum RecipeItem {
     DeletedAt,
 }
 #[derive(DeriveIden)]
-enum RecipeItemVolume {
+enum RecipeItemAmount {
     Table,
     Id,
     RecipeItemId,
@@ -55,6 +55,19 @@ enum Recipe {
     CreatedAt,
     UpdatedAt,
     DeletedAt,
+}
+#[derive(DeriveIden)]
+enum RecipeStep {
+    Table,
+    Id,
+    RecipeId,
+    Order,
+    RecipeItemId,
+    Tittle,
+    Desc,
+    Duration,
+    Temperature,
+    Power,
 }
 #[derive(DeriveIden)]
 enum MetricType {
@@ -114,10 +127,10 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(IngredientCategory::Table)
+                    .table(RecipeItemType::Table)
                     .if_not_exists()
-                    .col(pk_uuid(IngredientCategory::Id))
-                    .col(string_uniq(IngredientCategory::Name).not_null())
+                    .col(pk_uuid(RecipeItemType::Id))
+                    .col(string_uniq(RecipeItemType::Name).not_null())
                     .to_owned(),
             )
             .await
@@ -136,14 +149,14 @@ impl MigrationTrait for Migration {
                             .small_integer()
                             .not_null(),
                     )
-                    .col(uuid(RecipeItem::IngredientCategoryId).null())
+                    .col(uuid(RecipeItem::RecipeItemTypeId).null())
                     .col(date_time(RecipeItem::CreatedAt).not_null())
                     .col(date_time(RecipeItem::UpdatedAt).not_null())
                     .col(date_time_null(RecipeItem::DeletedAt))
                     .foreign_key(
                         ForeignKey::create()
-                            .from(RecipeItem::Table, RecipeItem::IngredientCategoryId)
-                            .to(IngredientCategory::Table, IngredientCategory::Id)
+                            .from(RecipeItem::Table, RecipeItem::RecipeItemTypeId)
+                            .to(RecipeItemType::Table, RecipeItemType::Id)
                             .on_delete(ForeignKeyAction::SetNull),
                     )
                     .foreign_key(
@@ -173,7 +186,7 @@ impl MigrationTrait for Migration {
                 Index::create()
                     .name("idx-recipe-items-ingredient-category-id")
                     .table(RecipeItem::Table)
-                    .col(RecipeItem::IngredientCategoryId)
+                    .col(RecipeItem::RecipeItemTypeId)
                     .to_owned(),
             )
             .await?;
@@ -191,15 +204,15 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(RecipeItemVolume::Table)
+                    .table(RecipeItemAmount::Table)
                     .if_not_exists()
-                    .col(pk_uuid(RecipeItemVolume::Id))
-                    .col(uuid(RecipeItemVolume::RecipeItemId).not_null())
-                    .col(float(RecipeItemVolume::Amunt).not_null())
-                    .col(string(RecipeItemVolume::Unit).not_null())
+                    .col(pk_uuid(RecipeItemAmount::Id))
+                    .col(uuid(RecipeItemAmount::RecipeItemId).not_null())
+                    .col(float(RecipeItemAmount::Amunt).not_null())
+                    .col(string(RecipeItemAmount::Unit).not_null())
                     .foreign_key(
                         ForeignKey::create()
-                            .from(RecipeItemVolume::Table, RecipeItemVolume::RecipeItemId)
+                            .from(RecipeItemAmount::Table, RecipeItemAmount::RecipeItemId)
                             .to(RecipeItem::Table, RecipeItem::Id)
                             .on_delete(ForeignKeyAction::Restrict),
                     )
@@ -211,8 +224,8 @@ impl MigrationTrait for Migration {
             .create_index(
                 Index::create()
                     .name("idx-recipe-item-volumes-recipe-item-id")
-                    .table(RecipeItemVolume::Table)
-                    .col(RecipeItemVolume::RecipeItemId)
+                    .table(RecipeItemAmount::Table)
+                    .col(RecipeItemAmount::RecipeItemId)
                     .to_owned(),
             )
             .await?;
@@ -246,6 +259,19 @@ impl MigrationTrait for Migration {
                             .on_delete(ForeignKeyAction::SetNull),
                     )
                     .check(Expr::col(Recipe::Visibility).between(0, 255))
+                    .to_owned(),
+            )
+            .await?;
+
+        manager
+            .create_table(
+                Table::create()
+                    .table(RecipeStep::Table)
+                    .if_not_exists()
+                    .col(pk_uuid(RecipeStep::Id))
+                    .col(ColumnDef::new(RecipeStep::Order).small_integer().not_null())
+                    .col(uuid(RecipeStep::RecipeId).not_null())
+                    .col(uuid(RecipeStep::RecipeItemId).not_null())
                     .to_owned(),
             )
             .await?;

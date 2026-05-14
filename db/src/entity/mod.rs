@@ -2,10 +2,10 @@
 
 pub mod prelude;
 
-pub mod ingredient_category;
 pub mod metric_type;
 pub mod recipe;
 pub mod recipe_item;
+pub mod recipe_item_type;
 pub mod recipe_item_volume;
 pub mod recipe_metric;
 pub mod user;
