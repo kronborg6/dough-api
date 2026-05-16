@@ -272,6 +272,11 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(RecipeStep::Order).small_integer().not_null())
                     .col(uuid(RecipeStep::RecipeId).not_null())
                     .col(uuid(RecipeStep::RecipeItemId).not_null())
+                    .col(string(RecipeStep::Tittle).not_null())
+                    .col(string(RecipeStep::Desc).null())
+                    .col(string(RecipeStep::Temperature).null())
+                    .col(string(RecipeStep::Power).null())
+                    .col(string(RecipeStep::Duration).null())
                     .to_owned(),
             )
             .await?;

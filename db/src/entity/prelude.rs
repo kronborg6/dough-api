@@ -3,8 +3,9 @@
 pub use super::metric_type::Entity as MetricType;
 pub use super::recipe::Entity as Recipe;
 pub use super::recipe_item::Entity as RecipeItem;
+pub use super::recipe_item_amount::Entity as RecipeItemAmount;
 pub use super::recipe_item_type::Entity as RecipeItemType;
-pub use super::recipe_item_volume::Entity as RecipeItemVolume;
 pub use super::recipe_metric::Entity as RecipeMetric;
+pub use super::recipe_step::Entity as RecipeStep;
 pub use super::user::Entity as User;
 pub use super::user_info::Entity as UserInfo;

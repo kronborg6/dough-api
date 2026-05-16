@@ -15,6 +15,8 @@ pub struct Model {
     pub created_at: DateTime,
     pub updated_at: DateTime,
     pub deleted_at: Option<DateTime>,
+    #[sea_orm(has_many)]
+    pub recipe_item_amounts: HasMany<super::recipe_item_amount::Entity>,
     #[sea_orm(
         belongs_to,
         from = "recipe_item_type_id",
@@ -23,8 +25,6 @@ pub struct Model {
         on_delete = "SetNull"
     )]
     pub recipe_item_type: HasOne<super::recipe_item_type::Entity>,
-    #[sea_orm(has_many)]
-    pub recipe_item_volumes: HasMany<super::recipe_item_volume::Entity>,
     #[sea_orm(
         belongs_to,
         from = "user_id",
