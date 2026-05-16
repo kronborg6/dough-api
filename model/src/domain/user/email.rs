@@ -15,8 +15,12 @@ impl Email {
 
         let parts: Vec<&str> = name.split('@').collect();
 
-        if parts.len() != 2 || parts[0].is_empty() || parts[1].matches('.').count() != 1 {
-            return Err(String::from("email is invaled 2"));
+        if parts.len() != 2
+            || parts[0].is_empty()
+            || parts[1].matches('.').count() != 1
+            || parts[1].len() < 4
+        {
+            return Err(String::from("email is invaled"));
         }
 
         Ok(Self(name))
