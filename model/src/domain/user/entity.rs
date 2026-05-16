@@ -1,14 +1,17 @@
 use std::ops::Deref;
 
-use crate::domain::shared::id::UserId;
+use crate::domain::{shared::id::UserId, user::username::Username};
 use uuid::Uuid;
 
 pub struct User {
     id: UserId,
+    username: Username,
 }
 
 fn gg() {
-    let gg = User {
+    let name = Username::new("Kronborg").expect("hardcoded vaule username should be valid");
+    let user = User {
         id: UserId(Uuid::new_v4()),
+        username: name,
     };
 }
