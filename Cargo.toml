@@ -1,7 +1,7 @@
 [workspace]
 members = [
     "api",
-    # "entity",
+    "db",
     "service",
     "migration"
 , "model"]
