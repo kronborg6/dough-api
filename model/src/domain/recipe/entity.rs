@@ -1,14 +1,15 @@
-use crate::domain::error::recipe::RecipeError;
 use std::rc::Rc;
 
+use chrono::{DateTime, Utc};
+
 use crate::domain::{
+    error::recipe::RecipeError,
     recipe::recipe_summary::RecipeSummary,
     shared::{
         id::RecipeId,
         visibility::{Visibility, VisibilityOptions},
     },
 };
-use chrono::{DateTime, Utc};
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Recipe {

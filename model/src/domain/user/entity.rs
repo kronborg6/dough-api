@@ -1,5 +1,6 @@
-use crate::domain::{shared::id::UserId, user::username::Username};
 use uuid::Uuid;
+
+use crate::domain::{shared::id::UserId, user::username::Username};
 
 pub struct User {
     id: UserId,

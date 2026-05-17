@@ -1,6 +1,6 @@
-use crate::domain::shared::{id::RecipeId, visibility::Visibility};
-
 use chrono::{DateTime, Local};
+
+use crate::domain::shared::{id::RecipeId, visibility::Visibility};
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct RecipeSummary {
