@@ -1,3 +1,5 @@
+use crate::domain::error::visibility::VisibilityError;
+
 #[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum VisibilityOptions {
@@ -33,6 +35,11 @@ impl TryFrom<u8> for Visibility {
 impl Visibility {
     pub fn new(value: VisibilityOptions) -> Self {
         Self(value)
+    }
+
+    pub fn change(&mut self, value: VisibilityOptions) -> Result<(), VisibilityError> {
+        self.0 = value;
+        Ok(())
     }
 
     pub fn is_public(&self) -> bool {

@@ -1,3 +1,4 @@
+pub mod error;
 pub mod recipe;
 pub mod recipe_item;
 pub mod shared;

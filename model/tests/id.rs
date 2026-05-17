@@ -8,6 +8,7 @@ fn ids_are_unique() {
     let id1 = TestId::default();
 
     assert_eq!(Variant::RFC4122, id1.get_variant());
+    assert_ne!(id1.0, Uuid::nil());
 
     let id2 = TestId::new();
 

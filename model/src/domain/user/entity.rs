@@ -1,5 +1,3 @@
-use std::ops::Deref;
-
 use crate::domain::{shared::id::UserId, user::username::Username};
 use uuid::Uuid;
 
@@ -14,4 +12,8 @@ fn gg() {
         id: UserId(Uuid::new_v4()),
         username: name,
     };
+
+    if user.username.contains("r") {
+        println!("{:?}", user.username.to_string());
+    }
 }
